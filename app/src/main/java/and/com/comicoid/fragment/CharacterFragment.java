@@ -4,11 +4,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +24,6 @@ import and.com.comicoid.adapter.GalleryAdapter;
 import and.com.comicoid.config.ApiClient;
 import and.com.comicoid.model.Image;
 import and.com.comicoid.network.MarvelAsyncTaskLoader;
-import and.com.comicoid.touch.RecyclerTouchListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -44,15 +43,9 @@ public class CharacterFragment extends Fragment implements LoaderManager.LoaderC
 
     private static final int LOADER_ID = 22;
 
-    private String KEY_LAYOUT_MANAGER = "list_state";
-    private static final int SPAN_COUNT = 2;
-
-    private enum LayoutManagerType {
-        GRID_LAYOUT_MANAGER,
-        LINEAR_LAYOUT_MANAGER
-    }
-    protected LayoutManagerType mCurrentLayoutManagerType;
-    protected RecyclerView.LayoutManager mLayoutManager;
+    private Parcelable mListState;
+    private GridLayoutManager mLayoutManager;
+    private String LIST_STATE_KEY = "list_state";
 
     private ConnectivityManager connectivityManager;
     private NetworkInfo isConnectedOrConnecting;
@@ -60,22 +53,12 @@ public class CharacterFragment extends Fragment implements LoaderManager.LoaderC
     public CharacterFragment() {
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, rootView);
 
-        if (savedInstanceState != null) {
-            mCurrentLayoutManagerType = (LayoutManagerType) savedInstanceState.getSerializable(KEY_LAYOUT_MANAGER);
-        }
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-
-        setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
-
-        LoaderManager loaderManager = getLoaderManager();
+        LoaderManager loaderManager = getActivity().getSupportLoaderManager();
 
         imageList = new ArrayList<>();
         galleryAdapter = new GalleryAdapter(getContext(),imageList);
@@ -91,49 +74,9 @@ public class CharacterFragment extends Fragment implements LoaderManager.LoaderC
         } else {
             Toast.makeText(getContext(), "No Internet", Toast.LENGTH_SHORT).show();
         }
-
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-            }
-            @Override
-            public void onLongClick(View view, int position) {}
-        }));
-
         imageList.clear();
-        loaderManager.restartLoader(LOADER_ID,null,this).forceLoad();
+        loaderManager.initLoader(LOADER_ID,null,this).forceLoad();
         return rootView;
-    }
-
-    public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
-        int scrollPosition = 0;
-
-        if (recyclerView.getLayoutManager() != null) {
-            scrollPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
-                    .findFirstCompletelyVisibleItemPosition();
-        }
-        switch (layoutManagerType) {
-            case GRID_LAYOUT_MANAGER:
-                mLayoutManager = new GridLayoutManager(getActivity(), SPAN_COUNT);
-                mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
-                break;
-            case LINEAR_LAYOUT_MANAGER:
-                mLayoutManager = new LinearLayoutManager(getActivity());
-                mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-                break;
-            default:
-                mLayoutManager = new LinearLayoutManager(getActivity());
-                mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-        }
-
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.scrollToPosition(scrollPosition);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle(getResources().getString(R.string.nav_char));
     }
 
     @Override
@@ -154,6 +97,7 @@ public class CharacterFragment extends Fragment implements LoaderManager.LoaderC
         imageList = data;
         galleryAdapter = new GalleryAdapter(getContext(),data);
         recyclerView.setAdapter(galleryAdapter);
+        mLayoutManager.onRestoreInstanceState(mListState);
     }
 
     @Override
@@ -162,8 +106,23 @@ public class CharacterFragment extends Fragment implements LoaderManager.LoaderC
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putSerializable(KEY_LAYOUT_MANAGER, mCurrentLayoutManagerType);
-        super.onSaveInstanceState(savedInstanceState);
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mListState = mLayoutManager.onSaveInstanceState();
+        outState.putParcelable(LIST_STATE_KEY, mListState);
+    }
+
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        if(savedInstanceState != null) {
+            mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mListState != null) {
+            mLayoutManager.onRestoreInstanceState(mListState);
+        }
+        getActivity().setTitle(getResources().getString(R.string.nav_char));
     }
 }
