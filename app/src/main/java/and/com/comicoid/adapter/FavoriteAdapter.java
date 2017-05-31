@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,7 +33,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.test, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_fav, parent, false);
         return new MyViewHolder(itemView);
     }
 
@@ -50,6 +49,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.thumbnail);
+
     }
 
     @Override
@@ -78,12 +78,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
         ImageView thumbnail;
         @BindView(R.id.title)
         TextView title;
-        @BindView(R.id.share_button)
-        Button shareButton;
-        @BindView(R.id.like_button)
-        Button likeButton;
-        @BindView(R.id.download_button)
-        Button downloadButton;
 
         public MyViewHolder(View itemView) {
             super(itemView);

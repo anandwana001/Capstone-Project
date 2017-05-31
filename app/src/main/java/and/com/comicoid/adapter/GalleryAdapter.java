@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +29,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +48,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 
     private List<Image> images;
     private Context mContext;
-    private Bitmap bitmap;
 
     public GalleryAdapter(Context mContext, List<Image> images) {
         this.mContext = mContext;
@@ -59,13 +57,13 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.test, parent, false);
+                .inflate(R.layout.list_item, parent, false);
 
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Image image = images.get(position);
 
         holder.title.setText(image.getName());
@@ -75,6 +73,11 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.thumbnail);
+
+        if(chkfav(image.getId()))
+            holder.likeButton.setBackground(ContextCompat.getDrawable(mContext,R.drawable.ic_action_liked));
+        else
+            holder.likeButton.setBackground(ContextCompat.getDrawable(mContext,R.drawable.ic_action_like));
 
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +109,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
             public void onClick(View v) {
                 if (chkfav(image.getId())) {
                     removeFav(image.getId());
+                    holder.likeButton.setBackground(ContextCompat.getDrawable(mContext,R.drawable.ic_action_like));
                     Toast.makeText(mContext, "Remove From Favourite List", Toast.LENGTH_LONG).show();
                 } else {
                     ContentValues testValues = new ContentValues();
@@ -115,6 +119,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
                     testValues.put(MarvelContract.MarvelEntry.COLUMN_DETAIL, image.getDescription());
                     Uri uri = mContext.getContentResolver().insert(MarvelContract.MarvelEntry.CONTENT_URI, testValues);
                     if (uri != null) {
+                        holder.likeButton.setBackground(ContextCompat.getDrawable(mContext,R.drawable.ic_action_liked));
                         Toast.makeText(mContext, "Added to Favourite List", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -124,12 +129,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
         holder.downloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                URL imageurl = null;
-                try {
-                    imageurl = new URL(image.getThumbnail());
-
-                    Glide
-                            .with(mContext)
+                    Glide.with(mContext)
                             .load(images.get(position).getThumbnail())
                             .asBitmap()
                             .into(new SimpleTarget<Bitmap>(100,100) {
@@ -138,37 +138,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
                                     saveImage(resource,position);
                                 }
                             });
-
-                  /*  new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... params) {
-                            Looper.prepare();
-                            try {
-                                bitmap = Glide.
-                                        with(mContext).
-                                        load(images.get(position).getThumbnail()).
-                                        asBitmap().
-                                        into(-1,-1).
-                                        get();
-                            } catch (final ExecutionException e) {
-                                Log.e(TAG, e.getMessage());
-                            } catch (final InterruptedException e) {
-                                Log.e(TAG, e.getMessage());
-                            }
-                            return null;
-                        }
-                        @Override
-                        protected void onPostExecute(Void dummy) {
-                            if (null != bitmap) {
-                                Log.v(mContext.getClass().getSimpleName(),"image bitmap = "+bitmap.toString());
-                                saveImage(bitmap,position);
-                            };
-                        }
-                    }.execute();*/
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
             }
             });
     }

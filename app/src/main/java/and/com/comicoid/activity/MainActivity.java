@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import and.com.comicoid.R;
+import and.com.comicoid.fragment.AboutFragment;
 import and.com.comicoid.fragment.CharacterFragment;
 import and.com.comicoid.fragment.ComicFragment;
 import and.com.comicoid.fragment.EventFragment;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG_CHAR = "characters";
     public static final String TAG_CO = "comics";
     public static final String TAG_EV = "events";
+    public static final String TAG_AB = "about";
     public static String CURRENT_TAG = TAG_CHAR;
 
     // index to identify current nav menu item
@@ -99,6 +101,9 @@ public class MainActivity extends AppCompatActivity
             case 2:
                 sendFragment = new EventFragment();
                 break;
+            case 3:
+                sendFragment = new AboutFragment();
+                break;
             default:
                 sendFragment = new CharacterFragment();
         }
@@ -128,7 +133,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_share) {
+        if (id == R.id.action_favorite) {
             Intent intent = new Intent(this,FavoriteActivity.class);
             startActivity(intent);
         }
@@ -153,6 +158,8 @@ public class MainActivity extends AppCompatActivity
                 CURRENT_TAG = TAG_EV;
                 break;
             case R.id.nav_about_us:
+                navItemIndex = 3;
+                CURRENT_TAG = TAG_AB;
                 break;
             default:
                 navItemIndex = 0;

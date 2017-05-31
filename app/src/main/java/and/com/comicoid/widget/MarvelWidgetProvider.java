@@ -27,7 +27,7 @@ public class MarvelWidgetProvider extends AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.title, titlePendingIntent);
 
             Intent intent = new Intent(context, MyWidgetRemoteViewsService.class);
-            views.setRemoteAdapter(R.id.recycler_view_recipe, intent);
+            views.setRemoteAdapter(R.id.recycler_view_marvel, intent);
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
@@ -40,7 +40,7 @@ public class MarvelWidgetProvider extends AppWidgetProvider {
         if (action.equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
             AppWidgetManager mgr = AppWidgetManager.getInstance(context);
             ComponentName cn = new ComponentName(context, MarvelWidgetProvider.class);
-            mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.recycler_view_recipe);
+            mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.recycler_view_marvel);
         }
         super.onReceive(context, intent);
     }

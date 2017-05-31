@@ -61,6 +61,7 @@ public class MarvelAsyncTaskLoader extends AsyncTaskLoader<List<Image>> {
         return url;
     }
 
+
     @Override
     public List<Image> loadInBackground() {
         List<Image> marvelList= null;

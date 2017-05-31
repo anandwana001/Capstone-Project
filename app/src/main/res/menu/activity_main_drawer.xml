@@ -14,14 +14,10 @@
             android:id="@+id/nav_ev"
             android:icon="@drawable/folder"
             android:title="Events" />
+        <item
+            android:id="@+id/nav_about_us"
+            android:icon="@drawable/folder"
+            android:title="About us" />
     </group>
-
-    <item android:title="Other">
-        <menu>
-            <item
-                android:id="@+id/nav_about_us"
-                android:title="About us" />
-        </menu>
-    </item>
 
 </menu>

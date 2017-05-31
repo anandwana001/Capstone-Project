@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import and.com.comicoid.R;
 import and.com.comicoid.adapter.FavoriteAdapter;
@@ -21,6 +23,8 @@ public class FavoriteActivity extends AppCompatActivity implements
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+    @BindView(R.id.no_fav)
+    TextView noFav;
     private FavoriteAdapter favoriteAdapter;
     private Cursor cursor_load;
     private static final int TASK_LOADER_ID = 0;
@@ -28,10 +32,10 @@ public class FavoriteActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_list);
+        setContentView(R.layout.activity_favorite);
         ButterKnife.bind(this);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         favoriteAdapter = new FavoriteAdapter(this);
         recyclerView.setAdapter(favoriteAdapter);
 
@@ -57,6 +61,7 @@ public class FavoriteActivity extends AppCompatActivity implements
                     forceLoad();
                 }
             }
+
             @Override
             public Cursor loadInBackground() {
                 try {
@@ -71,6 +76,7 @@ public class FavoriteActivity extends AppCompatActivity implements
                     return null;
                 }
             }
+
             public void deliverResult(Cursor data) {
                 mTaskData = data;
                 super.deliverResult(data);
@@ -80,8 +86,13 @@ public class FavoriteActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        cursor_load = data;
-        favoriteAdapter.swapCursor(data);
+        if(data.getCount()<= 0){
+            noFav.setVisibility(View.VISIBLE);
+            noFav.setText("No Favorite");
+        }else{
+            cursor_load = data;
+            favoriteAdapter.swapCursor(data);
+        }
     }
 
     @Override

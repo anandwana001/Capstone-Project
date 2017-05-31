@@ -58,8 +58,7 @@ public class EventFragment extends Fragment implements LoaderManager.LoaderCallb
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, rootView);
 
-        if(savedInstanceState != null)
-            mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+        LoaderManager loaderManager = getActivity().getSupportLoaderManager();
 
         imageList = new ArrayList<>();
         galleryAdapter = new GalleryAdapter(getContext(),imageList);
@@ -77,8 +76,10 @@ public class EventFragment extends Fragment implements LoaderManager.LoaderCallb
         }
 
         imageList.clear();
-        getLoaderManager().initLoader(LOADER_ID,null,this).forceLoad();
-
+        if(savedInstanceState != null)
+            mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+        else
+            loaderManager.restartLoader(LOADER_ID,null,this).forceLoad();
         return rootView;
     }
 
@@ -121,5 +122,6 @@ public class EventFragment extends Fragment implements LoaderManager.LoaderCallb
         if (mListState != null) {
             mLayoutManager.onRestoreInstanceState(mListState);
         }
+        getActivity().setTitle(MainActivity.TAG_EV);
     }
 }

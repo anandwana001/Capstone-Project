@@ -3,12 +3,11 @@ package and.com.comicoid.widget;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.squareup.picasso.Picasso;
 
 import and.com.comicoid.R;
 import and.com.comicoid.data.MarvelContract;
@@ -54,42 +53,14 @@ public class MyWidgetRemoteViewsFactory implements RemoteViewsService.RemoteView
         final RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.marvel_widget_item);
         cursor.moveToPosition(position);
 
-        Glide
-                .with(mContext)
-                .load(cursor.getString(cursor.getColumnIndex(MarvelContract.MarvelEntry.COLUMN_IMAGE)))
-                .asBitmap()
-                .into(new SimpleTarget<Bitmap>(100,100) {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                        rv.setImageViewBitmap(R.id.thumbnail, resource);
-                    }
-                });
+        Uri imageUri = Uri.parse(cursor.getString(cursor.getColumnIndex(MarvelContract.MarvelEntry.COLUMN_IMAGE)));
 
-      /*  new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                Looper.prepare();
-                try {
-                   bitmap = Glide.
-                            with(mContext).
-                            load(cursor.getString(cursor.getColumnIndex(MarvelContract.MarvelEntry.COLUMN_IMAGE))).
-                            asBitmap().
-                            into(-1,-1).
-                            get();
-                } catch (final ExecutionException e) {
-                    Log.e(TAG, e.getMessage());
-                } catch (final InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
-                }
-                return null;
-            }
-            @Override
-            protected void onPostExecute(Void dummy) {
-                if (null != bitmap) {
-                    rv.setImageViewBitmap(R.id.thumbnail, bitmap);
-                };
-            }
-        }.execute();*/
+        try {
+            Bitmap bitmap = Picasso.with(mContext).load(imageUri).get();
+            rv.setImageViewBitmap(R.id.thumbnail, bitmap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return rv;
     }

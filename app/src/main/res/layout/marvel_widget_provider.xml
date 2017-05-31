@@ -16,7 +16,7 @@
         style="@style/Base.TextAppearance.AppCompat.Medium" />
 
     <ListView
-        android:id="@+id/recycler_view_recipe"
+        android:id="@+id/recycler_view_marvel"
         android:layout_height="wrap_content"
         android:layout_width="match_parent" />
 

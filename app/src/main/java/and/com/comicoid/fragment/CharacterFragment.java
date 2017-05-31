@@ -79,6 +79,7 @@ public class CharacterFragment extends Fragment implements LoaderManager.LoaderC
             mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
         else
             loaderManager.restartLoader(LOADER_ID,null,this).forceLoad();
+
         return rootView;
     }
 
@@ -120,5 +121,6 @@ public class CharacterFragment extends Fragment implements LoaderManager.LoaderC
         if (mListState != null) {
             mLayoutManager.onRestoreInstanceState(mListState);
         }
+        getActivity().setTitle(MainActivity.TAG_CHAR);
     }
 }
