@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_char"
+            android:icon="@drawable/folder"
+            android:title="Characters" />
+        <item
+            android:id="@+id/nav_com"
+            android:icon="@drawable/folder"
+            android:title="Comics" />
+        <item
+            android:id="@+id/nav_ev"
+            android:icon="@drawable/folder"
+            android:title="Events" />
+    </group>
+
+    <item android:title="Other">
+        <menu>
+            <item
+                android:id="@+id/nav_about_us"
+                android:title="About us" />
+        </menu>
+    </item>
+
+</menu>

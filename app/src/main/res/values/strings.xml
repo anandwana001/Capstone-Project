@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">ComiCoid</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="nav_char">Characters</string>
+    <string name="nav_com">Comics</string>
+    <string name="nav_ev">Events</string>
+
+    <string-array name="nav_item_activity_titles">
+        <item>Characters</item>
+        <item>Comics</item>
+        <item>Events</item>
+    </string-array>
+
+    <string name="action_favourite">Favourite</string>
+</resources>
