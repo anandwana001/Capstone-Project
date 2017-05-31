@@ -57,6 +57,9 @@ public class ComicFragment extends Fragment implements LoaderManager.LoaderCallb
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, rootView);
 
+        if(savedInstanceState != null)
+            mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+
         imageList = new ArrayList<>();
         galleryAdapter = new GalleryAdapter(getContext(),imageList);
         mLayoutManager = new GridLayoutManager(getContext(),2);
@@ -109,17 +112,11 @@ public class ComicFragment extends Fragment implements LoaderManager.LoaderCallb
         outState.putParcelable(LIST_STATE_KEY, mListState);
     }
 
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        if(savedInstanceState != null) {
-            mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
-        }
-    }
     @Override
     public void onResume() {
         super.onResume();
         if (mListState != null) {
             mLayoutManager.onRestoreInstanceState(mListState);
         }
-        getActivity().setTitle(getResources().getString(R.string.nav_com));
     }
 }

@@ -60,6 +60,9 @@ public class CharacterFragment extends Fragment implements LoaderManager.LoaderC
 
         LoaderManager loaderManager = getActivity().getSupportLoaderManager();
 
+        if(savedInstanceState != null)
+            mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+
         imageList = new ArrayList<>();
         galleryAdapter = new GalleryAdapter(getContext(),imageList);
         mLayoutManager = new GridLayoutManager(getContext(),2);
@@ -95,14 +98,13 @@ public class CharacterFragment extends Fragment implements LoaderManager.LoaderC
     @Override
     public void onLoadFinished(Loader<List<Image>> loader, List<Image> data) {
         imageList = data;
-        galleryAdapter = new GalleryAdapter(getContext(),data);
+        galleryAdapter = new GalleryAdapter(getContext(),imageList);
         recyclerView.setAdapter(galleryAdapter);
         mLayoutManager.onRestoreInstanceState(mListState);
     }
 
     @Override
     public void onLoaderReset(Loader<List<Image>> loader) {
-
     }
 
     @Override
@@ -112,17 +114,11 @@ public class CharacterFragment extends Fragment implements LoaderManager.LoaderC
         outState.putParcelable(LIST_STATE_KEY, mListState);
     }
 
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        if(savedInstanceState != null) {
-            mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
-        }
-    }
     @Override
     public void onResume() {
         super.onResume();
         if (mListState != null) {
             mLayoutManager.onRestoreInstanceState(mListState);
         }
-        getActivity().setTitle(getResources().getString(R.string.nav_char));
     }
 }

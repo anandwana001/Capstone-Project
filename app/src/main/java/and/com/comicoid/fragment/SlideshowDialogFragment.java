@@ -1,17 +1,22 @@
 package and.com.comicoid.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 
 import and.com.comicoid.R;
-import and.com.comicoid.adapter.MyViewPagerAdapter;
 import and.com.comicoid.model.Image;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,7 +57,7 @@ public class SlideshowDialogFragment extends DialogFragment {
             selectedPosition = getArguments().getInt("position");
         }
 
-        myViewPagerAdapter = new MyViewPagerAdapter(imageArrayList,getContext());
+        myViewPagerAdapter = new MyViewPagerAdapter();
         viewpager.setAdapter(myViewPagerAdapter);
         viewpager.addOnPageChangeListener(viewPagerPageChangeListener);
 
@@ -95,6 +100,50 @@ public class SlideshowDialogFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+    }
+
+    public class MyViewPagerAdapter extends PagerAdapter {
+        private LayoutInflater layoutInflater;
+
+        public MyViewPagerAdapter() {
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+
+            layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = layoutInflater.inflate(R.layout.image_fullscreen_preview, container, false);
+
+            ImageView imageViewPreview = (ImageView) view.findViewById(R.id.image_preview);
+
+            Image image = imageArrayList.get(position);
+
+            Glide.with(getActivity()).load(image.getThumbnail())
+                    .thumbnail(0.5f)
+                    .crossFade()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(imageViewPreview);
+
+            container.addView(view);
+
+            return view;
+        }
+
+        @Override
+        public int getCount() {
+            return imageArrayList.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object obj) {
+            return view == ((View) obj);
+        }
+
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
     }
 
     @Override

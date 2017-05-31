@@ -3,7 +3,6 @@ package and.com.comicoid.network;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +53,6 @@ public class MarvelAsyncTaskLoader extends AsyncTaskLoader<List<Image>> {
                 .appendQueryParameter("hash",hash)
                 .appendQueryParameter("limit","100");
         String marvelUrl = builder.build().toString();
-        Log.v("URL " , marvelUrl);
         try {
             return new URL(marvelUrl);
         } catch (MalformedURLException e) {

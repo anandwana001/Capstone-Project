@@ -1,6 +1,7 @@
 package and.com.comicoid.activity;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity
     public static int navItemIndex = 0;
 
     public Fragment fragment;
+    private Fragment sendFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +83,6 @@ public class MainActivity extends AppCompatActivity
                     android.R.anim.fade_out);
             fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
             fragmentTransaction.commit();
-
             drawer.closeDrawers();
         }
     }
@@ -89,17 +90,18 @@ public class MainActivity extends AppCompatActivity
     private Fragment getHomeFragment() {
         switch (navItemIndex) {
             case 0:
-                CharacterFragment characterFragment = new CharacterFragment();
-                return characterFragment;
+                sendFragment = new CharacterFragment();
+                break;
             case 1:
-                ComicFragment comicFragment = new ComicFragment();
-                return comicFragment;
+                sendFragment = new ComicFragment();
+                break;
             case 2:
-                EventFragment eventFragment = new EventFragment();
-                return eventFragment;
+                sendFragment = new EventFragment();
+                break;
             default:
-                return new CharacterFragment();
+                sendFragment = new CharacterFragment();
         }
+        return sendFragment;
     }
 
     private void selectNavMenu() {
@@ -168,5 +170,10 @@ public class MainActivity extends AppCompatActivity
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         getSupportFragmentManager().putFragment(outState, "myFragmentName", fragment);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
     }
 }
