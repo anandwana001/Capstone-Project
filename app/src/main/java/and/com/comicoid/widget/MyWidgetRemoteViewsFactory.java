@@ -61,7 +61,7 @@ public class MyWidgetRemoteViewsFactory implements RemoteViewsService.RemoteView
                 .into(new SimpleTarget<Bitmap>(100,100) {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                        rv.setImageViewBitmap(R.id.thumbnail, bitmap);
+                        rv.setImageViewBitmap(R.id.thumbnail, resource);
                     }
                 });
 

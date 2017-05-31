@@ -135,7 +135,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
                             .into(new SimpleTarget<Bitmap>(100,100) {
                                 @Override
                                 public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                                    saveImage(bitmap,position);
+                                    saveImage(resource,position);
                                 }
                             });
 
