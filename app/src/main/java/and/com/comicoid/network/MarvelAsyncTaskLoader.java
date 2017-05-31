@@ -93,12 +93,8 @@ public class MarvelAsyncTaskLoader extends AsyncTaskLoader<List<Image>> {
             }
         }catch (IOException e){
         }finally{
-            if(urlConnection != null){
-                urlConnection.disconnect();
-            }
-            if(inputStream != null){
-                inputStream.close();
-            }
+            urlConnection.disconnect();
+            inputStream.close();
         }
         return jsonResponse;
     }
@@ -127,6 +123,9 @@ public class MarvelAsyncTaskLoader extends AsyncTaskLoader<List<Image>> {
                 try {
                     JSONObject object = json_result_array.getJSONObject(i);
                     Image image = new Image();
+
+                    image.setId(object.getInt("id"));
+
                     if(sort == "characters"){
                         image.setName(object.getString("name"));
                     }else{

@@ -36,10 +36,9 @@ public class SlideshowDialogFragment extends DialogFragment {
     TextView description;
     Unbinder unbinder;
 
-    private String TAG = SlideshowDialogFragment.class.getSimpleName();
-    private List<Image> imageArrayList;
-    private MyViewPagerAdapter myViewPagerAdapter;
-    private int selectedPosition = 0;
+    public List<Image> imageArrayList;
+    public MyViewPagerAdapter myViewPagerAdapter;
+    public int selectedPosition = 0;
 
     public static SlideshowDialogFragment newInstance() {
         SlideshowDialogFragment f = new SlideshowDialogFragment();
@@ -52,10 +51,8 @@ public class SlideshowDialogFragment extends DialogFragment {
         View rootView = inflater.inflate(R.layout.fragment_image_slider, container, false);
         ButterKnife.bind(this,rootView);
 
-        if((getArguments().getParcelableArrayList("imagesList") != null) && (getArguments().getInt("position") < 0 )){
-            imageArrayList = getArguments().getParcelableArrayList("imagesList");
-            selectedPosition = getArguments().getInt("position");
-        }
+        imageArrayList = getArguments().getParcelableArrayList("imagesList");
+        selectedPosition = getArguments().getInt("position");
 
         myViewPagerAdapter = new MyViewPagerAdapter();
         viewpager.setAdapter(myViewPagerAdapter);

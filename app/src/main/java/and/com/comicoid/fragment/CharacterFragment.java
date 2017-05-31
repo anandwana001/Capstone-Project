@@ -62,6 +62,8 @@ public class CharacterFragment extends Fragment implements LoaderManager.LoaderC
 
         if(savedInstanceState != null)
             mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+        else
+            loaderManager.restartLoader(LOADER_ID,null,this).forceLoad();
 
         imageList = new ArrayList<>();
         galleryAdapter = new GalleryAdapter(getContext(),imageList);
