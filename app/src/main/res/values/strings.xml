@@ -12,7 +12,31 @@
         <item>Characters</item>
         <item>Comics</item>
         <item>Events</item>
+        <item>About Us</item>
     </string-array>
 
     <string name="action_favourite">Favourite</string>
+    <string name="no_favourite">No Favourite</string>
+    <string name="no_internet">No Internet</string>
+    <string name="no_char">No Character</string>
+    <string name="no_com">No Comic</string>
+    <string name="no_eve">No Event</string>
+
+    <!-- content descriptions-->
+    <string name="Banner_ad">Banner ad</string>
+    <string name="fav_list">Favourite List</string>
+    <string name="web_view">web view</string>
+    <string name="count">count</string>
+    <string name="description">description</string>
+    <string name="mavel_image">Marvel Image</string>
+    <string name="marvel_title">Marvel Title</string>
+    <string name="like">Like</string>
+    <string name="share">Share</string>
+    <string name="download">Download</string>
+    <string name="deadpool">deadpool</string>
+    <string name="wolverine">wolverine</string>
+    <string name="ironman">ironman</string>
+    <string name="greenlantern">greenlantern</string>
+
+    <string name="interstitial_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
 </resources>

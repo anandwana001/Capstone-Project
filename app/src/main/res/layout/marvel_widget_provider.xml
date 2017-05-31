@@ -8,16 +8,18 @@
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/title_bar"
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:text="@string/app_name"
         android:textColor="@android:color/white"
-        style="@style/Base.TextAppearance.AppCompat.Medium" />
+        style="@style/Base.TextAppearance.AppCompat.Medium"
+        android:contentDescription="@string/app_name"/>
 
     <ListView
         android:id="@+id/recycler_view_marvel"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent" />
+        android:layout_width="match_parent"
+        android:contentDescription="@string/fav_list"/>
 
 </LinearLayout>

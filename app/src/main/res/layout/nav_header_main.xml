@@ -21,30 +21,35 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/aim" />
+            android:src="@mipmap/aim"
+            android:contentDescription="@string/app_name"/>
 
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/aimm" />
+            android:src="@mipmap/aimm"
+            android:contentDescription="@string/deadpool"/>
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/wol" />
+            android:src="@mipmap/wol"
+            android:contentDescription="@string/wolverine"/>
 
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/irn" />
+            android:src="@mipmap/irn"
+            android:contentDescription="@string/ironman"/>
         <ImageView
             android:id="@+id/imageView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/gln" />
+            android:src="@mipmap/gln"
+            android:contentDescription="@string/greenlantern"/>
 
     </LinearLayout>
 

@@ -13,7 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +32,13 @@ import butterknife.Unbinder;
  * Created by dell on 29-05-2017.
  */
 
-public class ComicFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Image>>{
+public class ComicFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Image>> {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     Unbinder unbinder;
+    @BindView(R.id.no_fav)
+    TextView noFav;
 
     private List<Image> imageList;
     private GalleryAdapter galleryAdapter;
@@ -60,8 +62,8 @@ public class ComicFragment extends Fragment implements LoaderManager.LoaderCallb
         LoaderManager loaderManager = getActivity().getSupportLoaderManager();
 
         imageList = new ArrayList<>();
-        galleryAdapter = new GalleryAdapter(getContext(),imageList);
-        mLayoutManager = new GridLayoutManager(getContext(),2);
+        galleryAdapter = new GalleryAdapter(getContext(), imageList);
+        mLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(galleryAdapter);
 
@@ -69,15 +71,23 @@ public class ComicFragment extends Fragment implements LoaderManager.LoaderCallb
         isConnectedOrConnecting = connectivityManager.getActiveNetworkInfo();
 
         if (isConnectedOrConnecting != null && isConnectedOrConnecting.isConnectedOrConnecting()) {
-            getLoaderManager().initLoader(LOADER_ID,null,this);
+            getLoaderManager().initLoader(LOADER_ID, null, this);
         } else {
-            Toast.makeText(getContext(), "No Internet", Toast.LENGTH_SHORT).show();
+            noFav.setVisibility(View.VISIBLE);
+            noFav.setText(getContext().getString(R.string.no_internet));
         }
         imageList.clear();
-        if(savedInstanceState != null)
-            mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
-        else
-            loaderManager.restartLoader(LOADER_ID,null,this).forceLoad();
+
+        if (isConnectedOrConnecting != null && isConnectedOrConnecting.isConnectedOrConnecting()) {
+            if (savedInstanceState != null)
+                mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+            else
+                loaderManager.restartLoader(LOADER_ID, null, this).forceLoad();
+        } else {
+            noFav.setVisibility(View.VISIBLE);
+            noFav.setText(getContext().getString(R.string.no_internet));
+        }
+
         return rootView;
     }
 
@@ -91,15 +101,20 @@ public class ComicFragment extends Fragment implements LoaderManager.LoaderCallb
     public Loader<List<Image>> onCreateLoader(int id, Bundle args) {
         ApiClient apiClient = new ApiClient();
         apiClient.creatUrl();
-        return new MarvelAsyncTaskLoader(getContext(), MainActivity.TAG_CO,apiClient.getTs(),apiClient.getApiKey(),apiClient.getHash());
+        return new MarvelAsyncTaskLoader(getContext(), MainActivity.TAG_CO, apiClient.getTs(), apiClient.getApiKey(), apiClient.getHash());
     }
 
     @Override
     public void onLoadFinished(Loader<List<Image>> loader, List<Image> data) {
-        imageList = data;
-        galleryAdapter = new GalleryAdapter(getContext(),data);
-        recyclerView.setAdapter(galleryAdapter);
-        mLayoutManager.onRestoreInstanceState(mListState);
+        if(data.size() == 0){
+            noFav.setVisibility(View.VISIBLE);
+            noFav.setText(getContext().getString(R.string.no_com));
+        }else{
+            imageList = data;
+            galleryAdapter = new GalleryAdapter(getContext(), data);
+            recyclerView.setAdapter(galleryAdapter);
+            mLayoutManager.onRestoreInstanceState(mListState);
+        }
     }
 
     @Override

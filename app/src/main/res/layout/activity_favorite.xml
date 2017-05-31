@@ -2,14 +2,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    xmlns:ads="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?colorPrimary"
         app:theme="@style/ThemeOverlay.AppCompat.Dark"
-        app:elevation="4dp">
+        app:elevation="@dimen/elevation_app_bar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -24,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:contentDescription="@string/no_favourite"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:visibility="gone"/>
 
@@ -31,6 +33,16 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/fav_list"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:contentDescription="@string/Banner_ad"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/interstitial_ad_unit_id"/>
 
 </android.support.design.widget.CoordinatorLayout>

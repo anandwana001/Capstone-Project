@@ -8,9 +8,13 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import and.com.comicoid.R;
 import and.com.comicoid.adapter.FavoriteAdapter;
@@ -25,6 +29,11 @@ public class FavoriteActivity extends AppCompatActivity implements
     RecyclerView recyclerView;
     @BindView(R.id.no_fav)
     TextView noFav;
+    @BindView(R.id.adView)
+    AdView adView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     private FavoriteAdapter favoriteAdapter;
     private Cursor cursor_load;
     private static final int TASK_LOADER_ID = 0;
@@ -34,6 +43,12 @@ public class FavoriteActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        adView.loadAd(adRequest);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         favoriteAdapter = new FavoriteAdapter(this);
@@ -86,10 +101,10 @@ public class FavoriteActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if(data.getCount()<= 0){
+        if (data.getCount() <= 0) {
             noFav.setVisibility(View.VISIBLE);
             noFav.setText("No Favorite");
-        }else{
+        } else {
             cursor_load = data;
             favoriteAdapter.swapCursor(data);
         }

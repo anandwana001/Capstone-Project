@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity
     public static int navItemIndex = 0;
 
     public Fragment fragment;
+
     private Fragment sendFragment;
 
     @Override
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity
                     android.R.anim.fade_out);
             fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
             fragmentTransaction.commit();
-        }else{
+        } else {
             navItemIndex = 0;
             CURRENT_TAG = TAG_CHAR;
             loadHomeFragment();
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity
         if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null) {
             drawer.closeDrawers();
             return;
-        }else{
+        } else {
             fragment = getHomeFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-            return ;
+            return;
         }
         super.onBackPressed();
     }
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.action_favorite) {
-            Intent intent = new Intent(this,FavoriteActivity.class);
+            Intent intent = new Intent(this, FavoriteActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

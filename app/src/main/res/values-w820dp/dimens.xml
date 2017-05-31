@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="activity_horizontal_margin">64dp</dimen>
+    <dimen name="text_title">18sp</dimen>
+    <dimen name="text_small">16sp</dimen>
+    <dimen name="title_bar">60dp</dimen>
 </resources>

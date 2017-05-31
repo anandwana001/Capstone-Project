@@ -6,8 +6,9 @@
     <ImageView
         android:id="@+id/thumbnail"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="@dimen/image_heght"
         android:background="@drawable/bgcolor"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/mavel_image"/>
 
 </LinearLayout>

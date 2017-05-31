@@ -7,9 +7,10 @@
 
     <ImageView
         android:id="@+id/image_preview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/mavel_image"/>
 
 </RelativeLayout>

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tool="http://schemas.android.com/tools"
-    android:layout_margin="4dp"
+    android:layout_margin="@dimen/elevation_app_bar"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground">
@@ -16,22 +16,24 @@
         <ImageView
             android:id="@+id/thumbnail"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="@dimen/image_heght"
             android:background="@drawable/bgcolor"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/mavel_image"/>
 
         <TextView
             android:id="@+id/title"
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingTop="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
             android:ellipsize="end"
             android:maxLines="2"
             android:lineSpacingMultiplier="0.9"
-            tool:text="title"/>
+            tool:text="title"
+            android:contentDescription="@string/marvel_title"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

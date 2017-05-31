@@ -61,7 +61,6 @@ public class MarvelAsyncTaskLoader extends AsyncTaskLoader<List<Image>> {
         return url;
     }
 
-
     @Override
     public List<Image> loadInBackground() {
         List<Image> marvelList= null;
@@ -94,8 +93,12 @@ public class MarvelAsyncTaskLoader extends AsyncTaskLoader<List<Image>> {
             }
         }catch (IOException e){
         }finally{
-            urlConnection.disconnect();
-            inputStream.close();
+            if(urlConnection != null){
+                urlConnection.disconnect();
+            }
+            if(inputStream == null){
+                inputStream.close();
+            }
         }
         return jsonResponse;
     }
