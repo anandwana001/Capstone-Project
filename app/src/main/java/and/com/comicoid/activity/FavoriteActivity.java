@@ -103,7 +103,7 @@ public class FavoriteActivity extends AppCompatActivity implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data.getCount() <= 0) {
             noFav.setVisibility(View.VISIBLE);
-            noFav.setText("No Favorite");
+            noFav.setText(getResources().getString(R.string.no_favourite));
         } else {
             cursor_load = data;
             favoriteAdapter.swapCursor(data);
