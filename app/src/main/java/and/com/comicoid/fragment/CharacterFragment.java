@@ -60,11 +60,6 @@ public class CharacterFragment extends Fragment implements LoaderManager.LoaderC
 
         LoaderManager loaderManager = getActivity().getSupportLoaderManager();
 
-        if(savedInstanceState != null)
-            mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
-        else
-            loaderManager.restartLoader(LOADER_ID,null,this).forceLoad();
-
         imageList = new ArrayList<>();
         galleryAdapter = new GalleryAdapter(getContext(),imageList);
         mLayoutManager = new GridLayoutManager(getContext(),2);
@@ -80,7 +75,10 @@ public class CharacterFragment extends Fragment implements LoaderManager.LoaderC
             Toast.makeText(getContext(), "No Internet", Toast.LENGTH_SHORT).show();
         }
         imageList.clear();
-        loaderManager.initLoader(LOADER_ID,null,this).forceLoad();
+        if(savedInstanceState != null)
+            mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+        else
+            loaderManager.restartLoader(LOADER_ID,null,this).forceLoad();
         return rootView;
     }
 

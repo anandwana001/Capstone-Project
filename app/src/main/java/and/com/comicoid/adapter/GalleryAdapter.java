@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,13 +22,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -51,6 +49,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 
     private List<Image> images;
     private Context mContext;
+    private Bitmap bitmap;
 
     public GalleryAdapter(Context mContext, List<Image> images) {
         this.mContext = mContext;
@@ -129,15 +128,45 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
                 try {
                     imageurl = new URL(image.getThumbnail());
 
-                    HttpURLConnection connection = (HttpURLConnection) imageurl.openConnection();
-                    connection.setDoInput(true);
-                    connection.connect();
-                    InputStream input = connection.getInputStream();
-                    Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                    saveImage(myBitmap,position);
+                    Glide
+                            .with(mContext)
+                            .load(images.get(position).getThumbnail())
+                            .asBitmap()
+                            .into(new SimpleTarget<Bitmap>(100,100) {
+                                @Override
+                                public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                                    saveImage(bitmap,position);
+                                }
+                            });
+
+                  /*  new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            Looper.prepare();
+                            try {
+                                bitmap = Glide.
+                                        with(mContext).
+                                        load(images.get(position).getThumbnail()).
+                                        asBitmap().
+                                        into(-1,-1).
+                                        get();
+                            } catch (final ExecutionException e) {
+                                Log.e(TAG, e.getMessage());
+                            } catch (final InterruptedException e) {
+                                Log.e(TAG, e.getMessage());
+                            }
+                            return null;
+                        }
+                        @Override
+                        protected void onPostExecute(Void dummy) {
+                            if (null != bitmap) {
+                                Log.v(mContext.getClass().getSimpleName(),"image bitmap = "+bitmap.toString());
+                                saveImage(bitmap,position);
+                            };
+                        }
+                    }.execute();*/
+
                 } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
