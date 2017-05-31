@@ -15,6 +15,18 @@
         <item>About Us</item>
     </string-array>
 
+    <string name="character">Characters</string>
+    <string name="comic">Comics</string>
+    <string name="event">Events</string>
+    <string name="about_us">About Us</string>
+
+    <string name="add_fav">Added to favorite list</string>
+    <string name="del_fav">Removed from favorite list</string>
+
+    <string name="saved_message">Image Saved</string>
+
+    <string name="send_to">Send To...</string>
+
     <string name="action_favourite">Favourite</string>
     <string name="no_favourite">No Favourite</string>
     <string name="no_internet">No Internet</string>

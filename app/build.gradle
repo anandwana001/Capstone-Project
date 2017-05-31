@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'alias'
             keyPassword 'comicoid'
-            storeFile file('ComiCoid/keystore.jks')
+            storeFile file('keystore.jks')
             storePassword 'comicoid'
         }
     }

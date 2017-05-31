@@ -100,7 +100,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, image.getName() + "\n" + image.getThumbnail() + "\n" + image.getDescription());
                 sendIntent.setType("text/plain");
-                mContext.startActivity(Intent.createChooser(sendIntent, "Send to..."));
+                mContext.startActivity(Intent.createChooser(sendIntent, mContext.getResources().getString(R.string.send_to)));
             }
         });
 
@@ -110,7 +110,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
                 if (chkfav(image.getId())) {
                     removeFav(image.getId());
                     holder.likeButton.setBackground(ContextCompat.getDrawable(mContext,R.drawable.ic_action_like));
-                    Toast.makeText(mContext, "Remove From Favourite List", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.del_fav), Toast.LENGTH_LONG).show();
                 } else {
                     ContentValues testValues = new ContentValues();
                     testValues.put(MarvelContract.MarvelEntry.COLUMN_ID, image.getId());
@@ -120,7 +120,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
                     Uri uri = mContext.getContentResolver().insert(MarvelContract.MarvelEntry.CONTENT_URI, testValues);
                     if (uri != null) {
                         holder.likeButton.setBackground(ContextCompat.getDrawable(mContext,R.drawable.ic_action_liked));
-                        Toast.makeText(mContext, "Added to Favourite List", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, mContext.getResources().getString(R.string.add_fav), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -180,7 +180,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 
             // Add the image to the system gallery
             galleryAddPic(savedImagePath);
-            Toast.makeText(mContext, "savedMessage", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, mContext.getResources().getString(R.string.saved_message), Toast.LENGTH_LONG).show();
         }
         return savedImagePath;
     }

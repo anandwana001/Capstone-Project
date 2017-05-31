@@ -5,19 +5,19 @@
         <item
             android:id="@+id/nav_char"
             android:icon="@drawable/folder"
-            android:title="Characters" />
+            android:title="@string/character" />
         <item
             android:id="@+id/nav_com"
             android:icon="@drawable/folder"
-            android:title="Comics" />
+            android:title="@string/comic" />
         <item
             android:id="@+id/nav_ev"
             android:icon="@drawable/folder"
-            android:title="Events" />
+            android:title="@string/event" />
         <item
             android:id="@+id/nav_about_us"
             android:icon="@drawable/folder"
-            android:title="About us" />
+            android:title="@string/about_us" />
     </group>
 
 </menu>
